@@ -151,4 +151,4 @@ Projeto desenvolvido pelos alunos do curso de Engenharia de Software da FIAP:
 
 ## Licença
 
-Projeto acadêmico desenvolvido exclusivamente para fins educacionais na disciplina **Global Solution FIAP 2026/1**.
+Projeto acadêmico desenvolvido exclusivamente para fins educacionais na disciplina **Global Solution FIAP 2026/2**.

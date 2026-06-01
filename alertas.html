@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Alertas | AgroTech Space</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="alertas">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
+      <span>AgroTech Space</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Home</a>
+      <a href="monitoramento.html">Monitoramento</a>
+      <a href="mapa.html">Mapa Satelital</a>
+      <a class="active" href="alertas.html">Alertas</a>
+      <a href="recomendacoes.html">Recomendações IA</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Central de alertas</p>
+      <h1>Riscos detectados antes do impacto na lavoura.</h1>
+      <p>Notificações simuladas indicam prioridade, setor afetado e ação sugerida para reduzir perdas.</p>
+      <div class="context-row">
+        <span>Fila operacional</span>
+        <span>Prioridade por risco</span>
+        <span>Resposta recomendada em campo</span>
+      </div>
+    </section>
+
+    <section class="alerts-toolbar">
+      <button class="btn primary" type="button" id="generateAlert">Gerar novo alerta</button>
+      <button class="btn secondary" type="button" id="clearAlerts">Limpar alertas</button>
+      <span class="live-indicator"><span></span> Monitoramento ativo</span>
+    </section>
+
+    <section class="alerts-list" id="alertsList" aria-live="polite"></section>
+  </main>
+
+  <footer class="site-footer"><span>AgroTech Space • Alertas</span><span>Prevenção climática e operacional</span></footer>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

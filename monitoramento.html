@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitoramento | AgroTech Space</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="monitoramento">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
+      <span>AgroTech Space</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Home</a>
+      <a class="active" href="monitoramento.html">Monitoramento</a>
+      <a href="mapa.html">Mapa Satelital</a>
+      <a href="alertas.html">Alertas</a>
+      <a href="recomendacoes.html">Recomendações IA</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Dashboard agrícola</p>
+      <h1>Monitoramento em tempo real da Fazenda Horizonte.</h1>
+      <p>Indicadores simulados combinam clima, vegetação e umidade do solo para uma visão operacional da lavoura.</p>
+      <div class="context-row">
+        <span>Safra 2026</span>
+        <span>Região: Oeste da Bahia</span>
+        <span>Última sincronização: <strong id="syncTime">--:--</strong></span>
+      </div>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Indicadores principais">
+      <article class="metric-card interactive-card" tabindex="0">
+        <div class="metric-top">
+          <span>Temperatura</span>
+          <svg class="icon small" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"></path></svg>
+        </div>
+        <strong id="tempValue">28°C</strong>
+        <p id="tempStatus">Condição estável</p>
+        <div class="progress"><span id="tempBar"></span></div>
+      </article>
+
+      <article class="metric-card interactive-card" tabindex="0">
+        <div class="metric-top">
+          <span>Umidade do Solo</span>
+          <svg class="icon small" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12z"></path></svg>
+        </div>
+        <strong id="humidityValue">61%</strong>
+        <p id="humidityStatus">Irrigação equilibrada</p>
+        <div class="progress"><span id="humidityBar"></span></div>
+      </article>
+
+      <article class="metric-card interactive-card" tabindex="0">
+        <div class="metric-top">
+          <span>Índice de Vegetação</span>
+          <svg class="icon small" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c8-1 13-6 16-16-10 2-16 7-16 16z"></path><path d="M4 20c4-5 8-8 14-10"></path></svg>
+        </div>
+        <strong id="ndviValue">0.78</strong>
+        <p id="ndviStatus">Vegetação saudável</p>
+        <div class="progress"><span id="ndviBar"></span></div>
+      </article>
+
+      <article class="metric-card status-card interactive-card" tabindex="0">
+        <div class="metric-top">
+          <span>Status da Plantação</span>
+          <svg class="icon small" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+        </div>
+        <strong id="cropStatus">Operação segura</strong>
+        <p id="cropSummary">Risco geral baixo nas próximas horas.</p>
+        <span class="risk-pill low" id="riskPill">Baixo risco</span>
+      </article>
+    </section>
+
+    <section class="panel-grid">
+      <article class="data-panel">
+        <h2>Telemetria por satélite</h2>
+        <p>Simulação de leitura orbital com atualização automática a cada poucos segundos.</p>
+        <div class="telemetry-list" id="telemetryList"></div>
+      </article>
+      <article class="data-panel">
+        <h2>Previsão operacional</h2>
+        <p id="forecastText">A lavoura apresenta boa estabilidade hídrica. Manter monitoramento preventivo.</p>
+        <button class="btn secondary" type="button" id="forceUpdate">Atualizar indicadores</button>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>AgroTech Space • Monitoramento</span><span>Dados simulados para MVP acadêmico</span></footer>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

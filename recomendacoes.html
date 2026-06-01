@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomendações IA | AgroTech Space</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="recomendacoes">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
+      <span>AgroTech Space</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Home</a>
+      <a href="monitoramento.html">Monitoramento</a>
+      <a href="mapa.html">Mapa Satelital</a>
+      <a href="alertas.html">Alertas</a>
+      <a class="active" href="recomendacoes.html">Recomendações IA</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Inteligência artificial simulada</p>
+      <h1>Recomendações automáticas para o produtor agir com precisão.</h1>
+      <p>A IA cruza umidade, temperatura, vegetação e risco climático para priorizar ações no campo.</p>
+      <div class="context-row">
+        <span>Modelo conceitual</span>
+        <span>Entrada: clima + solo + NDVI</span>
+        <span>Saída: ação priorizada</span>
+      </div>
+    </section>
+
+    <section class="ai-console">
+      <div class="ai-panel">
+        <h2>Diagnóstico atual</h2>
+        <p id="aiDiagnostic">A propriedade apresenta estabilidade geral, com atenção preventiva para setores de menor umidade.</p>
+        <button class="btn primary" type="button" id="generateRecommendation">Gerar recomendação IA</button>
+      </div>
+      <div class="recommendation-output" id="recommendationOutput">
+        <span class="risk-pill medium">Aguardando análise</span>
+        <h2>Selecione uma nova leitura inteligente</h2>
+        <p>O sistema irá simular uma recomendação baseada nos dados monitorados da fazenda.</p>
+      </div>
+    </section>
+
+    <section class="recommendation-grid" id="recommendationGrid"></section>
+  </main>
+
+  <footer class="site-footer"><span>AgroTech Space • Recomendações IA</span><span>Decisão agrícola orientada por dados</span></footer>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

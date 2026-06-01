@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Satelital | AgroTech Space</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="mapa">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
+      <span>AgroTech Space</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Home</a>
+      <a href="monitoramento.html">Monitoramento</a>
+      <a class="active" href="mapa.html">Mapa Satelital</a>
+      <a href="alertas.html">Alertas</a>
+      <a href="recomendacoes.html">Recomendações IA</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-title">
+      <p class="eyebrow">Mapa interativo</p>
+      <h1>Setores agrícolas vistos por uma camada satelital simulada.</h1>
+      <p>Clique em cada talhão para visualizar umidade, temperatura e nível de risco operacional.</p>
+      <div class="context-row">
+        <span>Resolução simulada: 10 m</span>
+        <span>Camada: NDVI + umidade</span>
+        <span>Área total: 1.240 ha</span>
+      </div>
+    </section>
+
+    <section class="map-layout">
+      <div class="farm-map" aria-label="Mapa simulado da fazenda">
+        <button class="farm-sector sector-a" data-sector="a" type="button">A1</button>
+        <button class="farm-sector sector-b" data-sector="b" type="button">B2</button>
+        <button class="farm-sector sector-c" data-sector="c" type="button">C3</button>
+        <button class="farm-sector sector-d" data-sector="d" type="button">D4</button>
+        <button class="farm-sector sector-e" data-sector="e" type="button">E5</button>
+        <div class="map-scan" aria-hidden="true"></div>
+      </div>
+
+      <aside class="sector-panel">
+        <p class="eyebrow">Setor selecionado</p>
+        <h2 id="sectorName">Talhão A1 - Soja</h2>
+        <div class="sector-stats">
+          <span>Umidade <strong id="sectorHumidity">58%</strong></span>
+          <span>Temperatura <strong id="sectorTemp">27°C</strong></span>
+          <span>Risco <strong id="sectorRisk">Baixo</strong></span>
+        </div>
+        <p id="sectorAdvice">Área em equilíbrio. Manter irrigação programada e acompanhar variações de temperatura.</p>
+        <button class="btn primary" type="button" id="openFarmModal">Abrir detalhes</button>
+      </aside>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="farmModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" id="closeFarmModal" aria-label="Fechar detalhes">×</button>
+      <p class="eyebrow">Detalhes da fazenda</p>
+      <h2 id="modalTitle">Fazenda Horizonte</h2>
+      <p id="modalDescription">Propriedade simulada com cinco talhões monitorados por dados orbitais, sensores de solo e recomendações inteligentes.</p>
+      <div class="modal-grid">
+        <span>Área total <strong>1.240 ha</strong></span>
+        <span>Cultura principal <strong>Soja e milho</strong></span>
+        <span>Satélites <strong>Óptico + radar</strong></span>
+        <span>Atualização <strong>Tempo real simulado</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer"><span>AgroTech Space • Mapa Satelital</span><span>Talhões clicáveis com dados dinâmicos</span></footer>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
