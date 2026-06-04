@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monitoramento | AgroTech Space</title>
+  <meta name="description" content="Dashboard agrícola com indicadores de clima, vegetação e umidade do solo em tempo real.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Monitoramento | AgroTech Space">
+  <meta property="og:description" content="Dashboard agrícola com indicadores de clima, vegetação e umidade do solo em tempo real.">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="monitoramento">
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
@@ -22,7 +28,7 @@
     </nav>
   </header>
 
-  <main class="page-shell">
+  <main id="main" class="page-shell">
     <section class="page-title">
       <p class="eyebrow">Dashboard agrícola</p>
       <h1>Monitoramento em tempo real da Fazenda Horizonte.</h1>
@@ -88,9 +94,46 @@
         <button class="btn secondary" type="button" id="forceUpdate">Atualizar indicadores</button>
       </article>
     </section>
+
+    <section class="charts-section">
+      <div class="section-heading">
+        <p class="eyebrow">Histórico recente</p>
+        <h2>Evolução dos indicadores nas últimas leituras.</h2>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-container">
+          <h3>Temperatura (°C)</h3>
+          <div class="chart-wrapper"><canvas id="tempChart"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h3>Umidade do Solo (%)</h3>
+          <div class="chart-wrapper"><canvas id="humidityChart"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h3>Índice de Vegetação (NDVI)</h3>
+          <div class="chart-wrapper"><canvas id="ndviChart"></canvas></div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer"><span>AgroTech Space • Monitoramento</span><span>Dados simulados para MVP acadêmico</span></footer>
+  <footer class="site-footer">
+    <div class="footer-top">
+      <span class="footer-brand">AgroTech Space</span>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="index.html">Home</a>
+        <a href="monitoramento.html">Monitoramento</a>
+        <a href="mapa.html">Mapa Satelital</a>
+        <a href="alertas.html">Alertas</a>
+        <a href="recomendacoes.html">Recomendações IA</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MVP FIAP 2026 • Economia Espacial</span>
+      <span>Dados simulados para MVP acadêmico</span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="assets/js/script.js"></script>
 </body>
 </html>

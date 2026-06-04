@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recomendações IA | AgroTech Space</title>
+  <meta name="description" content="Recomendações automáticas de IA para decisões agrícolas orientadas por dados.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Recomendações IA | AgroTech Space">
+  <meta property="og:description" content="Recomendações automáticas de IA para decisões agrícolas orientadas por dados.">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="recomendacoes">
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
@@ -22,7 +28,7 @@
     </nav>
   </header>
 
-  <main class="page-shell">
+  <main id="main" class="page-shell">
     <section class="page-title">
       <p class="eyebrow">Inteligência artificial simulada</p>
       <h1>Recomendações automáticas para o produtor agir com precisão.</h1>
@@ -41,7 +47,7 @@
         <button class="btn primary" type="button" id="generateRecommendation">Gerar recomendação IA</button>
       </div>
       <div class="recommendation-output" id="recommendationOutput">
-        <span class="risk-pill medium">Aguardando análise</span>
+        <span class="risk-pill neutral">Aguardando análise</span>
         <h2>Selecione uma nova leitura inteligente</h2>
         <p>O sistema irá simular uma recomendação baseada nos dados monitorados da fazenda.</p>
       </div>
@@ -50,7 +56,22 @@
     <section class="recommendation-grid" id="recommendationGrid"></section>
   </main>
 
-  <footer class="site-footer"><span>AgroTech Space • Recomendações IA</span><span>Decisão agrícola orientada por dados</span></footer>
+  <footer class="site-footer">
+    <div class="footer-top">
+      <span class="footer-brand">AgroTech Space</span>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="index.html">Home</a>
+        <a href="monitoramento.html">Monitoramento</a>
+        <a href="mapa.html">Mapa Satelital</a>
+        <a href="alertas.html">Alertas</a>
+        <a href="recomendacoes.html">Recomendações IA</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MVP FIAP 2026 • Economia Espacial</span>
+      <span>Decisão agrícola orientada por dados</span>
+    </div>
+  </footer>
   <script src="assets/js/script.js"></script>
 </body>
 </html>

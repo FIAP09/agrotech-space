@@ -1,9 +1,5 @@
-/* AgroTech Space - JavaScript principal.
-   O arquivo detecta a página atual pelo atributo data-page e ativa apenas os módulos necessários. */
-
 const page = document.body.dataset.page;
 
-// Navegação responsiva para telas menores.
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
 
@@ -14,7 +10,6 @@ if (menuToggle && mainNav) {
   });
 }
 
-// Animação de entrada para cards da home.
 const revealItems = document.querySelectorAll(".reveal");
 
 if (revealItems.length) {
@@ -29,7 +24,6 @@ if (revealItems.length) {
   revealItems.forEach((item) => observer.observe(item));
 }
 
-// Utilitários compartilhados para dados simulados.
 function randomBetween(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
@@ -54,8 +48,48 @@ function riskLabel(risk) {
   return labels[risk];
 }
 
-// Página de monitoramento: atualiza indicadores e barras de progresso.
+function trapFocus(element) {
+  const focusable = element.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const previousFocus = document.activeElement;
+
+  function handler(e) {
+    if (e.key === "Escape") {
+      const closeBtn = element.querySelector(".modal-close");
+      if (closeBtn) closeBtn.click();
+      return;
+    }
+    if (e.key !== "Tab") return;
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  element.addEventListener("keydown", handler);
+  if (first) first.focus();
+
+  return () => {
+    element.removeEventListener("keydown", handler);
+    if (previousFocus) previousFocus.focus();
+  };
+}
+
 function initMonitoringPage() {
+  const MAX_HISTORY = 10;
+  const history = { temp: [], humidity: [], ndvi: [], labels: [] };
+  let tempChart, humidityChart, ndviChart;
+
   const elements = {
     tempValue: document.querySelector("#tempValue"),
     tempStatus: document.querySelector("#tempStatus"),
@@ -74,6 +108,86 @@ function initMonitoringPage() {
     forceUpdate: document.querySelector("#forceUpdate"),
     syncTime: document.querySelector("#syncTime")
   };
+
+  function createChartConfig(label, color, min, max) {
+    return {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          label,
+          data: [],
+          borderColor: color,
+          backgroundColor: color + "22",
+          fill: true,
+          tension: 0.3,
+          pointRadius: 3,
+          pointBackgroundColor: color
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 300 },
+        scales: {
+          x: {
+            ticks: { color: "#aab6b1", font: { size: 10 } },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          },
+          y: {
+            min,
+            max,
+            ticks: { color: "#aab6b1", font: { size: 10 } },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    };
+  }
+
+  if (typeof Chart !== "undefined") {
+    tempChart = new Chart(
+      document.querySelector("#tempChart"),
+      createChartConfig("Temperatura (°C)", "#42c773", 18, 42)
+    );
+    humidityChart = new Chart(
+      document.querySelector("#humidityChart"),
+      createChartConfig("Umidade (%)", "#7cc7d9", 15, 85)
+    );
+    ndviChart = new Chart(
+      document.querySelector("#ndviChart"),
+      createChartConfig("NDVI", "#ffd166", 0.3, 1.0)
+    );
+  }
+
+  function updateCharts(temp, humidity, ndvi) {
+    const time = formatTime();
+    history.labels.push(time);
+    history.temp.push(temp);
+    history.humidity.push(humidity);
+    history.ndvi.push(ndvi);
+
+    if (history.labels.length > MAX_HISTORY) {
+      history.labels.shift();
+      history.temp.shift();
+      history.humidity.shift();
+      history.ndvi.shift();
+    }
+
+    [
+      [tempChart, history.temp],
+      [humidityChart, history.humidity],
+      [ndviChart, history.ndvi]
+    ].forEach(([chart, data]) => {
+      if (!chart) return;
+      chart.data.labels = [...history.labels];
+      chart.data.datasets[0].data = [...data];
+      chart.update();
+    });
+  }
 
   function updateDashboard() {
     const temp = randomBetween(22, 38);
@@ -116,17 +230,34 @@ function initMonitoringPage() {
       ["Precisão estimada", `${randomBetween(88, 97)}%`]
     ];
 
-    elements.telemetryList.innerHTML = telemetry
-      .map(([label, value]) => `<div class="telemetry-item"><span>${label}</span><strong>${value}</strong></div>`)
-      .join("");
+    elements.telemetryList.textContent = "";
+    telemetry.forEach(([label, value]) => {
+      const item = document.createElement("div");
+      item.className = "telemetry-item";
+      const labelSpan = document.createElement("span");
+      labelSpan.textContent = label;
+      const valueStrong = document.createElement("strong");
+      valueStrong.textContent = value;
+      item.append(labelSpan, valueStrong);
+      elements.telemetryList.appendChild(item);
+    });
+
+    updateCharts(temp, humidity, ndvi);
+
+    document.querySelectorAll(".metric-card").forEach(card => {
+      card.classList.remove("updating");
+      void card.offsetWidth;
+      card.classList.add("updating");
+    });
   }
 
   updateDashboard();
   elements.forceUpdate.addEventListener("click", updateDashboard);
-  setInterval(updateDashboard, 6000);
+  const dashboardInterval = setInterval(updateDashboard, 6000);
+
+  window.addEventListener("beforeunload", () => clearInterval(dashboardInterval));
 }
 
-// Página de mapa: setores clicáveis e modal de detalhes da fazenda.
 function initMapPage() {
   const sectors = {
     a: { name: "Talhão A1 - Soja", humidity: 58, temp: 27, risk: "Baixo", advice: "Área em equilíbrio. Manter irrigação programada e acompanhar variações de temperatura." },
@@ -146,6 +277,8 @@ function initMapPage() {
   const openModal = document.querySelector("#openFarmModal");
   const closeModal = document.querySelector("#closeFarmModal");
 
+  let removeTrap = null;
+
   function selectSector(key) {
     const data = sectors[key];
     buttons.forEach((button) => button.classList.toggle("active", button.dataset.sector === key));
@@ -160,25 +293,33 @@ function initMapPage() {
     button.addEventListener("click", () => selectSector(button.dataset.sector));
   });
 
-  openModal.addEventListener("click", () => {
+  function openModalFn() {
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
-  });
+    removeTrap = trapFocus(modal);
+  }
 
-  closeModal.addEventListener("click", () => {
+  function closeModalFn() {
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
-  });
+    if (removeTrap) {
+      removeTrap();
+      removeTrap = null;
+    }
+    openModal.focus();
+  }
 
+  openModal.addEventListener("click", openModalFn);
+  closeModal.addEventListener("click", closeModalFn);
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal.click();
+    if (event.target === modal) closeModalFn();
   });
 
   selectSector("a");
 }
 
-// Página de alertas: gera notificações simuladas manualmente e automaticamente.
 function initAlertsPage() {
+  const MAX_ALERTS = 20;
   const alertsList = document.querySelector("#alertsList");
   const generateAlert = document.querySelector("#generateAlert");
   const clearAlerts = document.querySelector("#clearAlerts");
@@ -191,35 +332,64 @@ function initAlertsPage() {
     { title: "Temperatura elevada", sector: "Talhão C3", level: "high", action: "Inspecionar estresse térmico e reduzir exposição hídrica." }
   ];
 
+  const alertIconSvg = '<svg class="icon small" viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>';
+
+  function showEmptyState() {
+    const empty = document.createElement("div");
+    empty.className = "alerts-empty";
+    empty.textContent = "Nenhum alerta ativo — monitoramento em andamento.";
+    alertsList.appendChild(empty);
+  }
+
   function createAlert() {
+    const emptyEl = alertsList.querySelector(".alerts-empty");
+    if (emptyEl) emptyEl.remove();
+
     const alert = alertTemplates[randomBetween(0, alertTemplates.length - 1)];
+
     const card = document.createElement("article");
     card.className = `alert-card ${alert.level}`;
-    card.innerHTML = `
-      <div class="alert-icon" aria-hidden="true">
-        <svg class="icon small" viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>
-      </div>
-      <div>
-        <h3>${alert.title}</h3>
-        <p>${alert.sector} • ${alert.action}</p>
-      </div>
-      <span class="risk-pill ${alert.level}">${riskLabel(alert.level)}</span>
-    `;
 
+    const iconDiv = document.createElement("div");
+    iconDiv.className = "alert-icon";
+    iconDiv.setAttribute("aria-hidden", "true");
+    iconDiv.innerHTML = alertIconSvg;
+
+    const content = document.createElement("div");
+    const title = document.createElement("h3");
+    title.textContent = alert.title;
+    const desc = document.createElement("p");
+    desc.textContent = `${alert.sector} • ${alert.action}`;
+    const timeEl = document.createElement("time");
+    timeEl.className = "alert-time";
+    timeEl.textContent = formatTime();
+    content.append(title, desc, timeEl);
+
+    const pill = document.createElement("span");
+    pill.className = `risk-pill ${alert.level}`;
+    pill.textContent = riskLabel(alert.level);
+
+    card.append(iconDiv, content, pill);
     alertsList.prepend(card);
+
+    while (alertsList.children.length > MAX_ALERTS) {
+      alertsList.removeChild(alertsList.lastElementChild);
+    }
   }
 
   generateAlert.addEventListener("click", createAlert);
   clearAlerts.addEventListener("click", () => {
-    alertsList.innerHTML = "";
+    alertsList.textContent = "";
+    showEmptyState();
   });
 
   createAlert();
   createAlert();
-  setInterval(createAlert, 9000);
+  const alertsInterval = setInterval(createAlert, 9000);
+
+  window.addEventListener("beforeunload", () => clearInterval(alertsInterval));
 }
 
-// Página de recomendações: simula saída de uma IA agrícola.
 function initRecommendationsPage() {
   const output = document.querySelector("#recommendationOutput");
   const grid = document.querySelector("#recommendationGrid");
@@ -235,24 +405,48 @@ function initRecommendationsPage() {
   ];
 
   function renderHistory() {
-    grid.innerHTML = recommendations.slice(0, 3).map((item) => `
-      <article class="feature-card recommendation-card">
-        <span class="risk-pill ${item.level}">${riskLabel(item.level)}</span>
-        <h3>${item.title}</h3>
-        <p>${item.text}</p>
-      </article>
-    `).join("");
+    grid.textContent = "";
+    recommendations.slice(0, 3).forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "feature-card recommendation-card";
+
+      const pill = document.createElement("span");
+      pill.className = `risk-pill ${item.level}`;
+      pill.textContent = riskLabel(item.level);
+
+      const h3 = document.createElement("h3");
+      h3.textContent = item.title;
+
+      const p = document.createElement("p");
+      p.textContent = item.text;
+
+      card.append(pill, h3, p);
+      grid.appendChild(card);
+    });
   }
 
   function generateRecommendation() {
     const item = recommendations[randomBetween(0, recommendations.length - 1)];
 
-    output.innerHTML = `
-      <span class="risk-pill ${item.level}">${riskLabel(item.level)}</span>
-      <h2>${item.title}</h2>
-      <p>${item.text}</p>
-      <p><strong>Base da análise:</strong> umidade do solo, temperatura, índice de vegetação e risco climático por setor.</p>
-    `;
+    output.textContent = "";
+
+    const pill = document.createElement("span");
+    pill.className = `risk-pill ${item.level}`;
+    pill.textContent = riskLabel(item.level);
+
+    const h2 = document.createElement("h2");
+    h2.textContent = item.title;
+
+    const p1 = document.createElement("p");
+    p1.textContent = item.text;
+
+    const p2 = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = "Base da análise: ";
+    p2.appendChild(strong);
+    p2.appendChild(document.createTextNode("umidade do solo, temperatura, índice de vegetação e risco climático por setor."));
+
+    output.append(pill, h2, p1, p2);
 
     diagnostic.textContent = item.level === "high"
       ? "A IA detectou risco relevante e recomenda ação imediata para proteger a produtividade."

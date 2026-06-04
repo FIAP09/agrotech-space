@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa Satelital | AgroTech Space</title>
+  <meta name="description" content="Mapa interativo com setores agrícolas monitorados por dados satelitais simulados.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Mapa Satelital | AgroTech Space">
+  <meta property="og:description" content="Mapa interativo com setores agrícolas monitorados por dados satelitais simulados.">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="mapa">
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="AgroTech Space - página inicial">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"></circle><path d="M8 31c8-5 19-8 32-7"></path><path d="M18 11c4 11 10 20 20 26"></path><path d="M14 32l5-10 8 7-10 5z"></path></svg></span>
@@ -22,7 +28,7 @@
     </nav>
   </header>
 
-  <main class="page-shell">
+  <main id="main" class="page-shell">
     <section class="page-title">
       <p class="eyebrow">Mapa interativo</p>
       <h1>Setores agrícolas vistos por uma camada satelital simulada.</h1>
@@ -36,11 +42,11 @@
 
     <section class="map-layout">
       <div class="farm-map" aria-label="Mapa simulado da fazenda">
-        <button class="farm-sector sector-a" data-sector="a" type="button">A1</button>
-        <button class="farm-sector sector-b" data-sector="b" type="button">B2</button>
-        <button class="farm-sector sector-c" data-sector="c" type="button">C3</button>
-        <button class="farm-sector sector-d" data-sector="d" type="button">D4</button>
-        <button class="farm-sector sector-e" data-sector="e" type="button">E5</button>
+        <button class="farm-sector sector-a" data-sector="a" type="button" aria-label="Talhão A1 - Soja">A1</button>
+        <button class="farm-sector sector-b" data-sector="b" type="button" aria-label="Talhão B2 - Milho">B2</button>
+        <button class="farm-sector sector-c" data-sector="c" type="button" aria-label="Talhão C3 - Algodão">C3</button>
+        <button class="farm-sector sector-d" data-sector="d" type="button" aria-label="Talhão D4 - Cana">D4</button>
+        <button class="farm-sector sector-e" data-sector="e" type="button" aria-label="Talhão E5 - Área experimental">E5</button>
         <div class="map-scan" aria-hidden="true"></div>
       </div>
 
@@ -56,6 +62,12 @@
         <button class="btn primary" type="button" id="openFarmModal">Abrir detalhes</button>
       </aside>
     </section>
+
+    <div class="map-legend" aria-label="Legenda de risco dos talhões">
+      <span class="legend-item"><span class="legend-color" style="background: rgba(40, 209, 124, 0.38)"></span> Risco baixo</span>
+      <span class="legend-item"><span class="legend-color" style="background: rgba(255, 209, 102, 0.35)"></span> Risco moderado</span>
+      <span class="legend-item"><span class="legend-color" style="background: rgba(255, 92, 122, 0.3)"></span> Risco alto</span>
+    </div>
   </main>
 
   <div class="modal-backdrop" id="farmModal" aria-hidden="true">
@@ -73,7 +85,22 @@
     </div>
   </div>
 
-  <footer class="site-footer"><span>AgroTech Space • Mapa Satelital</span><span>Talhões clicáveis com dados dinâmicos</span></footer>
+  <footer class="site-footer">
+    <div class="footer-top">
+      <span class="footer-brand">AgroTech Space</span>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="index.html">Home</a>
+        <a href="monitoramento.html">Monitoramento</a>
+        <a href="mapa.html">Mapa Satelital</a>
+        <a href="alertas.html">Alertas</a>
+        <a href="recomendacoes.html">Recomendações IA</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MVP FIAP 2026 • Economia Espacial</span>
+      <span>Talhões clicáveis com dados dinâmicos</span>
+    </div>
+  </footer>
   <script src="assets/js/script.js"></script>
 </body>
 </html>
